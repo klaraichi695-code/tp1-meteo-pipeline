@@ -1,0 +1,48 @@
+======================================================================
+RAPPORT DE QUALITE DES DONNEES METEO
+Date de génération: 2026-06-04 23:26:43
+======================================================================
+
+1. VOLUMETRIE
+--------------------------------------------------
+  Lignes en entrée      :     16
+  Lignes en sortie      :     14
+  Lignes supprimées     :      2
+  Taux de conservation  :  87.5%
+
+2. VALEURS MANQUANTES (données brutes)
+--------------------------------------------------
+  Colonne          Manquants     Taux
+  --------------- ---------- --------
+  id                       0     0.0%
+  station                  0     0.0%
+  date                     2    12.5%
+  temperature              2    12.5%
+  humidity                 2    12.5%
+  rain_mm                  1     6.2%
+  wind_kmh                 0     0.0%
+  irrigation               0     0.0%
+
+3. DOUBLONS
+--------------------------------------------------
+  Doublons exacts : 0
+
+4. STATISTIQUES DESCRIPTIVES (données nettoyées)
+--------------------------------------------------
+  Variable          Min      Max    Moyenne    Médiane   Ecart-type
+  ------------ -------- -------- ---------- ---------- ------------
+  temperature      18.9     28.3       23.8       24.0          2.6
+  humidity         42.0     72.0       58.3       59.0          8.6
+  rain_mm           0.0      8.0        1.1        0.0          2.4
+  wind_kmh          7.0    150.0       24.3       14.5         36.6
+
+5. OUTLIERS DETECTES (méthode IQR, données brutes)
+--------------------------------------------------
+  temperature     :  0 outlier(s)
+  humidity        :  1 outlier(s)
+  rain_mm         :  3 outlier(s)
+  wind_kmh        :  1 outlier(s)
+
+======================================================================
+FIN DU RAPPORT
+======================================================================

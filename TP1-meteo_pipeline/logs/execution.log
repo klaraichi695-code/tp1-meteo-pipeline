@@ -1,0 +1,85 @@
+2026-06-04 23:26:43 | INFO     | ============================================================
+2026-06-04 23:26:43 | INFO     | DÉMARRAGE DU PIPELINE ETL MÉTÉO
+2026-06-04 23:26:43 | INFO     | ============================================================
+2026-06-04 23:26:43 | INFO     | Début: 2026-06-04 23:26:43
+2026-06-04 23:26:43 | INFO     | ============================================================
+2026-06-04 23:26:43 | INFO     | PHASE 1: EXTRACTION
+2026-06-04 23:26:43 | INFO     | ============================================================
+2026-06-04 23:26:43 | INFO     | ✓ Extraction réussie: 16 lignes, 8 colonnes
+2026-06-04 23:26:43 | DEBUG    | Colonnes: ['id', 'station', 'date', 'temperature', 'humidity', 'rain_mm', 'wind_kmh', 'irrigation']
+2026-06-04 23:26:43 | DEBUG    | Types: 
+id               int64
+station            str
+date               str
+temperature        str
+humidity       float64
+rain_mm        float64
+wind_kmh         int64
+irrigation         str
+dtype: object
+2026-06-04 23:26:43 | INFO     | ============================================================
+2026-06-04 23:26:43 | INFO     | PHASE 2: TRANSFORMATION
+2026-06-04 23:26:43 | INFO     | ============================================================
+2026-06-04 23:26:43 | INFO     | Début: 16 lignes
+2026-06-04 23:26:43 | DEBUG    |   → station: standardisé en majuscules
+2026-06-04 23:26:43 | DEBUG    |   → irrigation: 16/16 valeurs mappées
+2026-06-04 23:26:43 | WARNING  |   → temperature: 1 valeur(s) non-numérique(s) converties en NaN
+2026-06-04 23:26:43 | WARNING  |   → date: 1 date(s) invalide(s) → NaT
+2026-06-04 23:26:43 | DEBUG    |   → aucun doublon détecté
+2026-06-04 23:26:43 | WARNING  |   → temperature: 1 valeur(s) hors [-40, 60] → NaN
+2026-06-04 23:26:43 | WARNING  |   → humidity: 1 valeur(s) hors [0, 100] → NaN
+2026-06-04 23:26:43 | WARNING  |   → humidity: 1 outlier(s) IQR détecté(s) (conservés)
+2026-06-04 23:26:43 | WARNING  |   → rain_mm: 3 outlier(s) IQR détecté(s) (conservés)
+2026-06-04 23:26:43 | WARNING  |   → wind_kmh: 1 outlier(s) IQR détecté(s) (conservés)
+2026-06-04 23:26:43 | WARNING  |   → 2 ligne(s) supprimée(s) (date invalide)
+2026-06-04 23:26:43 | INFO     |   → temperature: 2 NaN imputés (médiane par station)
+2026-06-04 23:26:43 | INFO     |   → humidity: 2 NaN imputés (médiane globale = 59.0)
+2026-06-04 23:26:43 | INFO     |   → rain_mm: 1 NaN imputés (0.0)
+2026-06-04 23:26:43 | INFO     | ✓ Fin transformation: 14 lignes conservées (sur 16)
+2026-06-04 23:26:43 | INFO     | ============================================================
+2026-06-04 23:26:43 | INFO     | PHASE 3: RAPPORT QUALITE
+2026-06-04 23:26:43 | INFO     | ============================================================
+2026-06-04 23:26:44 | INFO     | ✓ Rapport qualité généré: outputs/quality_report.txt
+2026-06-04 23:26:44 | INFO     | ============================================================
+2026-06-04 23:26:44 | INFO     | PHASE 4: FEATURE ENGINEERING
+2026-06-04 23:26:44 | INFO     | ============================================================
+2026-06-04 23:26:44 | DEBUG    |   → day_of_week: extrait
+2026-06-04 23:26:44 | DEBUG    |   → temp_category: discrétisée
+2026-06-04 23:26:44 | DEBUG    |   → irrigation_flag: binarisé
+2026-06-04 23:26:44 | DEBUG    |   → heat_index: calculé
+2026-06-04 23:26:44 | DEBUG    |   → water_need: règle métier appliquée
+2026-06-04 23:26:44 | DEBUG    |   → season: déduite du mois
+2026-06-04 23:26:44 | INFO     | ✓ 6 caractéristiques créées: ['day_of_week', 'temp_category', 'irrigation_flag', 'heat_index', 'water_need', 'season']
+2026-06-04 23:26:44 | INFO     | ============================================================
+2026-06-04 23:26:44 | INFO     | PHASE 5: EXPORT
+2026-06-04 23:26:44 | INFO     | ============================================================
+2026-06-04 23:26:44 | INFO     | ✓ Données nettoyées: outputs/data_clean.csv (14 lignes)
+2026-06-04 23:26:44 | INFO     | ✓ Données enrichies: outputs/data_features.csv (14 lignes, 14 colonnes)
+2026-06-04 23:26:44 | DEBUG    | 
+Aperçu des données nettoyées:
+   id station       date  temperature  humidity  rain_mm  wind_kmh irrigation
+0   1   ST-01 2025-06-01         22.5      65.0      0.0        12        OFF
+1   2   ST-01 2025-06-02         24.1      58.0      0.0        15         ON
+2   3   ST-02 2025-06-01         21.8      70.0      2.5         8        OFF
+2026-06-04 23:26:44 | DEBUG    | 
+Aperçu des caractéristiques:
+  station  temperature  water_need  heat_index
+0   ST-01         22.5           0        55.0
+1   ST-01         24.1           0        53.1
+2   ST-02         21.8           0        56.8
+2026-06-04 23:26:44 | INFO     | ============================================================
+2026-06-04 23:26:44 | INFO     | VALIDATIONS FINALES
+2026-06-04 23:26:44 | INFO     | ============================================================
+2026-06-04 23:26:44 | DEBUG    |   ✓ Validation 1/7: Dataset non vide
+2026-06-04 23:26:44 | DEBUG    |   ✓ Validation 2/7: Toutes les dates sont valides
+2026-06-04 23:26:44 | DEBUG    |   ✓ Validation 3/7: Aucune température manquante
+2026-06-04 23:26:44 | DEBUG    |   ✓ Validation 4/7: Irrigation correctement encodée
+2026-06-04 23:26:44 | DEBUG    |   ✓ Validation 5/7: Humidité dans les bornes [0,100]
+2026-06-04 23:26:44 | DEBUG    |   ✓ Validation 6/7: Aucun doublon résiduel
+2026-06-04 23:26:44 | DEBUG    |   ✓ Validation 7/7: Cohérence des tailles
+2026-06-04 23:26:44 | INFO     | ✅ Toutes les 7/7 validations sont passées
+2026-06-04 23:26:44 | INFO     | ============================================================
+2026-06-04 23:26:44 | INFO     | PIPELINE TERMINÉ AVEC SUCCÈS
+2026-06-04 23:26:44 | INFO     | Fin: 2026-06-04 23:26:44
+2026-06-04 23:26:44 | INFO     | Durée: 0.25 secondes
+2026-06-04 23:26:44 | INFO     | ============================================================
